@@ -449,23 +449,53 @@ class RideableUtils {
 					}
 				}
 			}
-
-			//fomd actor weight string
-			let vRawWeight = vActor.system?.details?.weight;
-			
-			if (!vRawWeight) {
-				vRawWeight = vActor.system?.details?.weight?.value;
-			}
-			//find numerical weight in weight string
-			if (vRawWeight) {
-				if (!isNaN(vRawWeight)) {
-					vWeight = vWeight + Number(vRawWeight);
+			if (vActor.system?.traits?.size?.value){
+				switch (vActor.system.traits.size.value) {
+					case "tiny":
+						vWeight = vWeight + 1;
+						break;
+					case "sm":
+						vWeight = vWeight + 3;
+						break;
+					case "med":
+						vWeight = vWeight + 6;
+						break;
+					case "lg":
+						vWeight = vWeight + 12;
+						break;
+					case "huge":
+						vWeight = vWeight + 24;
+						break;
+					case "grg":
+						vWeight = vWeight + 48;
+						break;
+					default:
+						console.error("Unknown size '" + vActor.system.traits.size.value + "'");
+						vWeight = vWeight + 10000; //should make us notice
+						break;
 				}
-				else {
-					let vNumbers = vRawWeight.match(/\d+/g);
-					
-					if (vNumbers.length) {
-						vWeight = vWeight + Number(vNumbers);
+			} else {
+				
+				//fomd actor weight string
+				console.log("Trying to extract weight from actor" );
+				console.log(vActor);
+				let vRawWeight = vActor.system?.details?.weight;
+				
+				if (!vRawWeight) {
+					vRawWeight = vActor.system?.details?.weight?.value;
+				}
+				//find numerical weight in weight string
+				if (vRawWeight) {
+					if (!isNaN(vRawWeight)) {
+						vWeight = vWeight + Number(vRawWeight);
+					}
+					else {
+						console.log("Trying to extract weight from string '" + vRawWeight + "'");
+						let vNumbers = vRawWeight.match(/\d+/g);
+						
+						if (vNumbers.length) {
+							vWeight = vWeight + Number(vNumbers);
+						}
 					}
 				}
 			}

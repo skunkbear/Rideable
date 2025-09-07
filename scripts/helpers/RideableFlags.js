@@ -1421,6 +1421,7 @@ class RideableFlags {
 						await this.#setFamiliarRidingFlag(vValidTokens[i],pRidingOptions.Familiar);
 						await this.#setGrappledFlag(vValidTokens[i],pRidingOptions.Grappled);
 						await this.#setisPilotingFlag(vValidTokens[i], false);
+						await vValidTokens[i].setFlag(cModuleName, "MountByEnterFlag", pRidingOptions.MountbyEnter || false);
 					}
 				}				
 			}

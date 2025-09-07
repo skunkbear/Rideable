@@ -681,15 +681,20 @@ class Ridingmanager {
 			
 			if (!RideableFlags.HasrelativPosition(pRiderTokenList[i])) {
 				//if first time Rider give Border position
-				if (!GeometricUtils.withinBoundariesupdated(pRiddenToken, pChanges, RideableFlags.TokenForm(pRiddenToken), GeometricUtils.CenterPosition(pRiderTokenList[i]))) {
+				if (await pRiderTokenList[i].getFlag(cModuleName, "MountByEnterFlag") == false && !GeometricUtils.withinBoundariesupdated(pRiddenToken, pChanges, RideableFlags.TokenForm(pRiddenToken), GeometricUtils.CenterPosition(pRiderTokenList[i]))) {
+					console.log("Rider outside, move to border");
 					vTargetPosition = GeometricUtils.closestBorderposition(pRiddenToken, vRiddenForm, pRiderTokenList[i]);			
 				}
 				else {
+					console.log("Rider inside, keep position");
 					let vRiderCenter = GeometricUtils.CenterPositionXY(pRiderTokenList[i]);
 					vTargetPosition = GeometricUtils.Rotated([vRiderCenter.x - vRiddenGeometry.x, vRiderCenter.y - vRiddenGeometry.y], -pRiddenToken.rotation);
 				}
 				
-				vTargetPosition = [...(GeometricUtils.GridSnap(vTargetPosition, FCore.sceneof(pRiddenToken).grid, [(vRiddenGeometry.width+pRiderTokenList[i].width)%2,(vRiddenGeometry.height+pRiderTokenList[i].height)%2])), pRiderTokenList[i].rotation - vRiddenGeometry.rotation];
+				if (await pRiderTokenList[i].getFlag(cModuleName, "MountByEnterFlag") == false) {
+					console.log("Didn't mount by enter, snap)");
+					vTargetPosition = [...(GeometricUtils.GridSnap(vTargetPosition, FCore.sceneof(pRiddenToken).grid, [(vRiddenGeometry.width+pRiderTokenList[i].width)%2,(vRiddenGeometry.height+pRiderTokenList[i].height)%2])), pRiderTokenList[i].rotation - vRiddenGeometry.rotation];
+				}
 
 				RideableFlags.setRelativPosition(pRiderTokenList[i], vTargetPosition);
 			}
