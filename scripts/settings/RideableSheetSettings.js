@@ -205,106 +205,105 @@ class RideableSheetSettings {
 															vvalue : RideableFlags.RiderscanMoveWithin(pApp.document), 
 															vflagname : cInsideMovementF
 															}, `div[data-tab="${cModuleName}"]`);
-															
-				if (game.user.isGM) {//GM settings
-					let vGMTittleHTML = fromHTML(`
-											<hr>
-											<h3 class="border" name="RideableTitle">${Translate("Titles.GMonly")}</h3>
-										`);
-					pHTML.querySelector(`div[data-tab="${cModuleName}"]`).append(vGMTittleHTML);
+													
+				let vGMTittleHTML = fromHTML(`
+										<hr>
+										<h3 class="border" name="RideableTitle">${Translate("Titles.GMonly")}</h3>
+									`);
+				pHTML.querySelector(`div[data-tab="${cModuleName}"]`).append(vGMTittleHTML);
+			
+				//Tokens spawned on creation
+				RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cSpawnRidersF +".name"), 
+															vhint : Translate("TokenSettings."+ cSpawnRidersF +".descrp"), 
+															vtype : "text",
+															vwide : true,
+															vvalue : RideableFlags.SpawnRidersstring(pApp.document), 
+															vflagname : cSpawnRidersF
+															}, `div[data-tab="${cModuleName}"]`);
 				
-					//Tokens spawned on creation
-					RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cSpawnRidersF +".name"), 
-																vhint : Translate("TokenSettings."+ cSpawnRidersF +".descrp"), 
-																vtype : "text",
+				if (RideableUtils.isPf2e() || RideableCompUtils.hasactiveEffectModule()) {
+					//if custom Mounting effects should override world stndard
+					RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cWorldMEffectOverrideF +".name"), 
+																vhint : Translate("TokenSettings."+ cWorldMEffectOverrideF +".descrp"), 
+																vtype : "checkbox",
 																vwide : true,
-																vvalue : RideableFlags.SpawnRidersstring(pApp.document), 
-																vflagname : cSpawnRidersF
+																vvalue : RideableFlags.OverrideWorldMEffects(pApp.document), 
+																vflagname : cWorldMEffectOverrideF
 																}, `div[data-tab="${cModuleName}"]`);
 					
-					if (RideableUtils.isPf2e() || RideableCompUtils.hasactiveEffectModule()) {
-						//if custom Mounting effects should override world stndard
-						RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cWorldMEffectOverrideF +".name"), 
-																	vhint : Translate("TokenSettings."+ cWorldMEffectOverrideF +".descrp"), 
+					//Custom Mounting effects applied to Riders
+					RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cMountingEffectsF +".name"), 
+																vhint : Translate("TokenSettings."+ cMountingEffectsF +".descrp"), 
+																vtype : "text",
+																vwide : true,
+																vvalue : RideableFlags.MountingEffects(pApp.document, true), 
+																vflagname : cMountingEffectsF
+																}, `div[data-tab="${cModuleName}"]`);
+							
+					if (!pisTile) {
+						//if custom Mounting effects should be self applied
+						RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cSelfApplyEffectsF +".name"), 
+																	vhint : Translate("TokenSettings."+ cSelfApplyEffectsF +".descrp"), 
 																	vtype : "checkbox",
 																	vwide : true,
-																	vvalue : RideableFlags.OverrideWorldMEffects(pApp.document), 
-																	vflagname : cWorldMEffectOverrideF
+																	vvalue : RideableFlags.SelfApplyCustomEffects(pApp.document), 
+																	vflagname : cSelfApplyEffectsF
 																	}, `div[data-tab="${cModuleName}"]`);
-						
-						//Custom Mounting effects applied to Riders
-						RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cMountingEffectsF +".name"), 
-																	vhint : Translate("TokenSettings."+ cMountingEffectsF +".descrp"), 
+
+						//for Mount effects applied to mount
+						RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cforMountEffectsF +".name"), 
+																	vhint : Translate("TokenSettings."+ cforMountEffectsF +".descrp"), 
 																	vtype : "text",
 																	vwide : true,
-																	vvalue : RideableFlags.MountingEffects(pApp.document, true), 
-																	vflagname : cMountingEffectsF
-																	}, `div[data-tab="${cModuleName}"]`);
-								
-						if (!pisTile) {
-							//if custom Mounting effects should be self applied
-							RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cSelfApplyEffectsF +".name"), 
-																		vhint : Translate("TokenSettings."+ cSelfApplyEffectsF +".descrp"), 
-																		vtype : "checkbox",
-																		vwide : true,
-																		vvalue : RideableFlags.SelfApplyCustomEffects(pApp.document), 
-																		vflagname : cSelfApplyEffectsF
-																		}, `div[data-tab="${cModuleName}"]`);
+																	vvalue : RideableFlags.forMountEffects(pApp.document), 
+																	vflagname : cforMountEffectsF
+																	}, `div[data-tab="${cModuleName}"]`);		
 
-							//for Mount effects applied to mount
-							RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cforMountEffectsF +".name"), 
-																		vhint : Translate("TokenSettings."+ cforMountEffectsF +".descrp"), 
+						if (game.settings.get(cModuleName, "Grappling")) {
+							//if this token can be grappled
+							RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ ccanbeGrappledF +".name"), 
+																		vhint : Translate("TokenSettings."+ ccanbeGrappledF +".descrp"), 
+																		vtype : "checkbox",
+																		vvalue : RideableFlags.canbeGrappled(pApp.document), 
+																		vflagname : ccanbeGrappledF
+																		}, `div[data-tab="${cModuleName}"]`);
+							
+							//effects applied to tokens grappled by this token
+							RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cGrapplingEffectsF +".name"), 
+																		vhint : Translate("TokenSettings."+ cGrapplingEffectsF +".descrp"), 
 																		vtype : "text",
 																		vwide : true,
-																		vvalue : RideableFlags.forMountEffects(pApp.document), 
-																		vflagname : cforMountEffectsF
-																		}, `div[data-tab="${cModuleName}"]`);		
-
-							if (game.settings.get(cModuleName, "Grappling")) {
-								//if this token can be grappled
-								RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ ccanbeGrappledF +".name"), 
-																			vhint : Translate("TokenSettings."+ ccanbeGrappledF +".descrp"), 
-																			vtype : "checkbox",
-																			vvalue : RideableFlags.canbeGrappled(pApp.document), 
-																			vflagname : ccanbeGrappledF
-																			}, `div[data-tab="${cModuleName}"]`);
-								
-								//effects applied to tokens grappled by this token
-								RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cGrapplingEffectsF +".name"), 
-																			vhint : Translate("TokenSettings."+ cGrapplingEffectsF +".descrp"), 
-																			vtype : "text",
-																			vwide : true,
-																			vvalue : RideableFlags.GrapplingEffects(pApp.document, true), 
-																			vflagname : cGrapplingEffectsF
-																			}, `div[data-tab="${cModuleName}"]`);
-							}
+																		vvalue : RideableFlags.GrapplingEffects(pApp.document, true), 
+																		vflagname : cGrapplingEffectsF
+																		}, `div[data-tab="${cModuleName}"]`);
 						}
 					}
-					
-					//if this token can be piloted
-					RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cCanbePilotedF +".name"), 
-																vhint : Translate("TokenSettings."+ cCanbePilotedF +".descrp"), 
-																vtype : "checkbox",
-																vvalue : RideableFlags.canbePiloted(pApp.document), 
-																vflagname : cCanbePilotedF
-																}, `div[data-tab="${cModuleName}"]`);	
-																
-					//if this token should check for collision while piloting
-					RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cCheckPilotedCollisionF +".name"), 
-																vhint : Translate("TokenSettings."+ cCheckPilotedCollisionF +".descrp"), 
-																vtype : "checkbox",
-																vvalue : RideableFlags.CheckPilotedCollision(pApp.document), 
-																vflagname : cCheckPilotedCollisionF
-																}, `div[data-tab="${cModuleName}"]`);	
-
-					//if this token is piloted by default
-					RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cPilotedbyDefaultF +".name"), 
-																vhint : Translate("TokenSettings."+ cPilotedbyDefaultF +".descrp"), 
-																vtype : "checkbox",
-																vvalue : RideableFlags.PilotedbyDefault(pApp.document), 
-																vflagname : cPilotedbyDefaultF
-																}, `div[data-tab="${cModuleName}"]`);																
 				}
+				
+				//if this token can be piloted
+				RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cCanbePilotedF +".name"), 
+															vhint : Translate("TokenSettings."+ cCanbePilotedF +".descrp"), 
+															vtype : "checkbox",
+															vvalue : RideableFlags.canbePiloted(pApp.document), 
+															vflagname : cCanbePilotedF
+															}, `div[data-tab="${cModuleName}"]`);	
+															
+				//if this token should check for collision while piloting
+				RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cCheckPilotedCollisionF +".name"), 
+															vhint : Translate("TokenSettings."+ cCheckPilotedCollisionF +".descrp"), 
+															vtype : "checkbox",
+															vvalue : RideableFlags.CheckPilotedCollision(pApp.document), 
+															vflagname : cCheckPilotedCollisionF
+															}, `div[data-tab="${cModuleName}"]`);	
+
+				//if this token is piloted by default
+				RideableSheetSettings.AddHTMLOption(pHTML, {vlabel : Translate("TokenSettings."+ cPilotedbyDefaultF +".name"), 
+															vhint : Translate("TokenSettings."+ cPilotedbyDefaultF +".descrp"), 
+															vtype : "checkbox",
+															vvalue : RideableFlags.PilotedbyDefault(pApp.document), 
+															vflagname : cPilotedbyDefaultF
+															}, `div[data-tab="${cModuleName}"]`);																
+			
 															
 				
 				pApp.setPosition({ height: "auto" });
@@ -514,21 +513,19 @@ function fromHTML(pHTML) {
 }
 
 Hooks.once("ready", () => {
-	if (game.user.isGM) {
-		//register settings only for GM
-		if (game.release.generation <= 12) {
-			Hooks.on("renderTokenConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML[0], vData)); //for tokens
-			
-			Hooks.on("renderTileConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML[0], vData, true)); //for tokens
-		}
-		else {
-			Hooks.on("renderTokenConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML, vData)); //for tokens
-			
-			Hooks.on("renderPrototypeTokenConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML, vData)); //for tokens
-			
-			Hooks.on("renderTileConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML, vData, true)); //for tokens
-			
-			//Hooks.on("renderPrototypeTileConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML, vData, true)); //for tokens
-		}
+	console.log("Using my modded rideable!");
+	if (game.release.generation <= 12) {
+		Hooks.on("renderTokenConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML[0], vData)); //for tokens
+		
+		Hooks.on("renderTileConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML[0], vData, true)); //for tokens
+	}
+	else {
+		Hooks.on("renderTokenConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML, vData)); //for tokens
+		
+		Hooks.on("renderPrototypeTokenConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML, vData)); //for tokens
+		
+		Hooks.on("renderTileConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML, vData, true)); //for tokens
+		
+		//Hooks.on("renderPrototypeTileConfig", (vApp, vHTML, vData) => RideableSheetSettings.SheetSetting(vApp, vHTML, vData, true)); //for tokens
 	}
 });
