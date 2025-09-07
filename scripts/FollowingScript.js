@@ -288,7 +288,7 @@ class FollowingManager {
 	
 	static async updatePathHistory(pToken, pchanges) {
 		if (game.settings.get(cModuleName, "FollowingAlgorithm") == "SimplePathHistory") {
-			if ((!game.users.find(vUser => vUser.isGM && vUser.active) && pToken.isOwner) || game.user.isGM) {
+			if ((!game.users.find(vUser => vUser.isGM && vUser.active) && pToken.isOwner) || true) {
 				//update path history of pToken
 				await CanvasAnimation.getAnimation(pToken.object?.animationName)?.promise;
 				await RideableFlags.AddtoPathHistory(pToken, GeometricUtils.updatedGeometry(pToken, pchanges));

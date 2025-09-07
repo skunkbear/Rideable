@@ -93,7 +93,7 @@ class Ridingmanager {
 	
 	//IMPLEMENTATIONS
 	static OnTokenupdate(pToken, pChanges, pInfos, pID, pisTile = false) {
-		if (game.user.isGM) {
+		if (true) {
 			/*
 			if (!pToken) {
 				//get token from scene if not linked
@@ -202,7 +202,7 @@ class Ridingmanager {
 	}
 	
 	static RequestUpdateRidderTokens(pRiddenToken, pRiderTokenList = [], pAnimations = true) {
-		if (game.user.isGM) {
+		if (true) {
 			Ridingmanager.UpdateRidderTokens(pRiddenToken, pRiderTokenList, pAnimations);
 		}
 		else {
@@ -213,7 +213,7 @@ class Ridingmanager {
 	} 
 	
 	static UpdateRidderTokensRequest(pRiddenID, pRidersListIDs, pSceneID, pAnimations) {
-		if (game.user.isGM) {
+		if (true) {
 			let vScene = game.scenes.get(pSceneID);
 			
 			Ridingmanager.UpdateRidderTokens(RideableUtils.TokenfromID(pRiddenID, vScene), RideableUtils.TokensfromIDs(pRidersListIDs, vScene), pAnimations);
@@ -901,7 +901,7 @@ class Ridingmanager {
 	
 	//static
 	static SyncSort(pDocument, pSort) {
-		if (game.user.isGM) {
+		if (true) {
 			pDocument.sort = pSort;
 			
 			let vData = {};
@@ -982,7 +982,7 @@ class Ridingmanager {
 	}
 	
 	static RequestMoveRidden(pRidden, pRelativChanges, pInfos) {
-		if (game.user.isGM) {
+		if (true) {
 			Ridingmanager.MoveRiddenGM(pRidden, pRelativChanges, pInfos);
 		}
 		else {
@@ -993,7 +993,7 @@ class Ridingmanager {
 	}
 	
 	static MoveRiddenRequest(pRiddenID, pSceneID, pRelativChanges, pInfos) {
-		if (game.user.isGM) {
+		if (true) {
 			let vScene = game.scenes.get(pSceneID);
 			
 			Ridingmanager.MoveRiddenGM(RideableUtils.TokenfromID(pRiddenID, vScene), pRelativChanges, pInfos);

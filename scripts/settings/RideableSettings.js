@@ -650,7 +650,7 @@ Hooks.on("renderSettingsConfig", (pApp, pHTML, pData) => {
 	//add a few titles	
 	let vnewHTML;
 	
-	if (game.user.isGM) {
+	if (true) {
 		//first world setting
 		vnewHTML = fromHTML(`<h3 class="border">${Translate("Titles.WorldSettings")}</h3>`);
 		 

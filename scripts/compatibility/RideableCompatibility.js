@@ -43,7 +43,7 @@ class RideableCompatibility {
 			console.log(pInfos);
 			console.log(pData);
 			/*
-			if (game.user.isGM) {
+			if (true) {
 				RideableCompatibility.RequestRideableTeleport(pData.selectedTokenIds, pData.sourceSceneId, pData.targetSceneId, pData.targetData, game.user.id);
 			}
 			else {
@@ -87,7 +87,7 @@ class RideableCompatibility {
 	
 	//specific: stairways
 	static onSWTeleport(pData) {
-		if (game.user.isGM) {
+		if (true) {
 			RideableCompatibility.RequestRideableTeleport(pData.selectedTokenIds, pData.sourceSceneId, pData.targetSceneId, pData.targetData, game.user.id);
 		}
 		else {
@@ -96,7 +96,7 @@ class RideableCompatibility {
 	}
 	
 /*	static onSWPreTeleport(pData) {
-		if (!game.user.isGM) {
+		if (!true) {
 			if (game.settings.get(cModuleName, "RiderMovement") === "RiderMovement-disallow") {
 				//stop riders from moving through stairways
 				let vInvalidTokens = [];
@@ -126,7 +126,7 @@ class RideableCompatibility {
 	}*/
 	
 	static RequestRideableTeleport(pTokenIDs, pSourceSceneID, pTargetSceneID, pTarget, pUserID) {
-		if (game.user.isGM) {
+		if (true) {
 			if ((pSourceSceneID != pTargetSceneID) && pSourceSceneID && pTargetSceneID) {
 				//only necessary for cross scene teleport
 				
@@ -139,7 +139,7 @@ class RideableCompatibility {
 	} 	
 		
 	static async OrganiseTeleport(pTokenIDs, pSourceScene, pTargetScene, pTarget, pUser, pDeleteOld = true, pTeleportMount = true, pupdatePrevID = true) {
-		if (game.user.isGM) {
+		if (true) {
 			if (pSourceScene != pTargetScene) {
 				if (pSourceScene && pTargetScene) {
 					for (let i = 0; i < pTokenIDs.length; i++) {
@@ -237,7 +237,7 @@ class RideableCompatibility {
 	
 	//specific: wall-heights	
 	static onWHTokenupdate(pToken, pchanges, pInfos) {
-		if (game.user.isGM) {			
+		if (true) {			
 			//Check if vToken is ridden
 			if (RideableFlags.isRidden(pToken)) {
 				
@@ -255,7 +255,7 @@ class RideableCompatibility {
 	//specific: tagger
 	static onTGGTokenpreupdate(pToken, pchanges, pInfos) {	
 		if (game.settings.get(cModuleName, "TaggerMountingIntegration")) {
-			if (game.user.isGM && RideableFlags.TokenisRideable(pToken)) {			
+			if (true && RideableFlags.TokenisRideable(pToken)) {			
 				if (pchanges.flags && pchanges.flags.hasOwnProperty(cTagger)) {
 					//get orriginal token for comparrison
 					let vOriginalToken = RideableUtils.TokenfromID(pToken.id);

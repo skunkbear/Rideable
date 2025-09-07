@@ -153,7 +153,7 @@ class MountingManager {
 		
 		/*
 		//fork dependent on GM status of user (either direct mount or mount request through Token ID send via socket)
-		if (game.user.isGM) {
+		if (true) {
 			MountingManager.MountSelectedGM(vTarget, vValidRiders, pRidingOptions);
 		}
 		else {
@@ -177,7 +177,7 @@ class MountingManager {
 	
 	static async MountSelectedGM(pTarget, pselectedTokens, pRidingOptions) {
 		//only works directly for GMs
-		if (game.user.isGM) {		
+		if (true) {		
 			//make sure ptarget exists	
 			if (((!pRidingOptions.Familiar) || (game.settings.get(cModuleName, "FamiliarRiding"))) && ((!pRidingOptions.Grappled) || (game.settings.get(cModuleName, "Grappling")))) {
 				//Familiar riding can only be handled if setting is activated
@@ -235,9 +235,9 @@ class MountingManager {
 	static RequestMount(pselectedTokens, pTarget, pRidingOptions) {
 		//starts a mount reequest
 		if (pTarget) {
-			pRidingOptions.isGM = game.user.isGM;
+			pRidingOptions.isGM = true;
 			
-			if (game.user.isGM) {
+			if (true) {
 				MountingManager.MountSelectedGM(pTarget, pselectedTokens, pRidingOptions);
 			}
 			else {
@@ -254,7 +254,7 @@ class MountingManager {
 	
 	static MountRequest(pTargetID, pselectedTokensID, pSceneID, pRidingOptions) { 
 		//Handels Mount request by matching TokenIDs to Tokens and mounting them
-		if (game.user.isGM) {
+		if (true) {
 			let vScene = game.scenes.get(pSceneID);
 			
 			MountingManager.MountSelectedGM(RideableUtils.TokenfromID(pTargetID, vScene), RideableUtils.TokensfromIDs(pselectedTokensID, vScene), pRidingOptions);
@@ -312,7 +312,7 @@ class MountingManager {
 	}
 	
 	static RequestUnmount(pTokens, pfromRidden = false) {
-		if (game.user.isGM) {
+		if (true) {
 			MountingManager.UnMountSelectedGM(pTokens, pfromRidden);
 		}
 		else {
@@ -330,7 +330,7 @@ class MountingManager {
 	
 	static UnMountRequest( pselectedTokenIDs, pSceneID, pfromRidden) { 
 		//Handels UnMount request by matching TokenIDs to Tokens and unmounting them
-		if (game.user.isGM) {
+		if (true) {
 			let vScene = game.scenes.get(pSceneID);
 			MountingManager.UnMountSelectedGM(RideableUtils.TokensfromIDs(pselectedTokenIDs, vScene), pfromRidden);
 		}
@@ -606,7 +606,7 @@ class MountingManager {
 	}
 
 	static async onpasteToken(pOriginal, pCopyData) {
-		if (game.user.isGM) {
+		if (true) {
 			if (pOriginal.length > 0) {
 				let vSourceScene = FCore.sceneof(pOriginal[0].document);
 				
@@ -874,7 +874,7 @@ class MountingManager {
 	}
 	
 	static async updateMountItem(pRidden) {
-		if (game.user.isGM && game.settings.get(cModuleName, "MountingWeight") != "off") {
+		if (true && game.settings.get(cModuleName, "MountingWeight") != "off") {
 			let vMountItem = await MountingManager.getMountItem(pRidden, true);
 			
 			if (vMountItem) {
@@ -929,7 +929,7 @@ class MountingManager {
 	static onItemUpdate(pItem) {
 		let vActor = pItem.actor;
 		
-		if (vActor && game.user.isGM) {
+		if (vActor && true) {
 			let vToken = vActor.token;
 			
 			if (!vToken) {
@@ -1022,7 +1022,7 @@ class MountingManager {
 	//Handel Token Creation/Deletion
 	static async onTokenCreation(pTokenDocument, pInfos, pID) {
 		//only relevant for GMs
-		if (game.user.isGM) {		
+		if (true) {		
 			if (!RideableUtils.ignoreSpawn(pInfos)) {
 				if (pInfos.RideableSpawn) {
 					let vRideableInfos = pInfos.RideableInfos;
@@ -1051,7 +1051,7 @@ class MountingManager {
 	
 	static onTokenDeletion(pToken) {
 		//only relevant for GMs
-		if (game.user.isGM) {
+		if (true) {
 			if (pToken) {
 				/* is bugged, fix later
 				if (RideableFlags.isRider(pToken)) {
